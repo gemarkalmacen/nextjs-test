@@ -74,10 +74,11 @@ export const authOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    error: "/login?error=true",
     signIn: "/login",
     signOut: "/login",
-  },  
+    error: "/login",  // Redirect errors to login instead of /api/auth/error
+  },
+  basePath: "/api/auth", // Force NextAuth to use Next.js API
   debug: true,
 };
 
