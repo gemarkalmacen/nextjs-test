@@ -18,7 +18,7 @@ export const authOptions = {
         }
 
         try {
-          const res = await fetch(`${getDjangoApiHost()}/api/account/auth/login/`, {
+          const res = await fetch(`https://devapi.surigaocity.gov.ph/api/account/auth/login/`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -26,6 +26,8 @@ export const authOptions = {
               password: credentials.password,
             }),
           });
+
+          console.log(res);
 
           const user = await res.json();
 
