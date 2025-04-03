@@ -14,10 +14,13 @@ export const authOptions = {
       },
       async authorize(credentials) {
         if (!credentials) {
+          console.error("❌ Missing credentials");
           throw new Error("Missing credentials");
         }
-
+      
         try {
+          console.log("Attempting login for:", credentials.username);
+      
           const res = await fetch(`https://devapi.surigaocity.gov.ph/api/account/auth/login/`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -26,15 +29,16 @@ export const authOptions = {
               password: credentials.password,
             }),
           });
-
-          console.log(res);
-
+      
+          console.log("API Response:", res.status);
+      
           const user = await res.json();
-
+          console.log("API Response Body:", user);
+      
           if (!res.ok) {
-            throw new Error(`API responded with status ${res.status}`);
+            throw new Error(`API responded with status ${res.status}: ${user.message || "Unknown error"}`);
           }
-
+      
           return {
             ...user.data.user,
             token: user.data.user.login.token,
@@ -42,9 +46,10 @@ export const authOptions = {
             employee_info: user.data.employee_info,
           };
         } catch (error) {
+          console.error("Login Error:", error);
           throw new Error("Authorization failed. Please try again.");
         }
-      },
+      }      
     }),
   ],
   callbacks: {
@@ -69,9 +74,10 @@ export const authOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   pages: {
-    signOut: "/login",
+    error: "/login?error=true",
     signIn: "/login",
-  },
+    signOut: "/login",
+  },  
   debug: true,
 };
 
