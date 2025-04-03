@@ -18,7 +18,28 @@ export const authOptions = {
         }
 
         try {
-          const res = await fetch(`${getDjangoApiHost()}/api/account/auth/login/`, {
+        //   const res = await fetch(`${getDjangoApiHost()}/api/account/auth/login/`, {
+        //     method: "POST",
+        //     headers: { "Content-Type": "application/json" },
+        //     body: JSON.stringify({
+        //       username: credentials.username,
+        //       password: credentials.password,
+        //     }),
+        //   });
+
+        //   const user = await res.json();
+
+        //   if (!res.ok) {
+        //     throw new Error(`API responded with status ${res.status}`);
+        //   }
+
+        //   return {
+        //     ...user.data.user,
+        //     token: user.data.user.login.token,
+        //     profile: user.data.profile,
+        //     employee_info: user.data.employee_info,
+        //   };
+        const res = await fetch(`${getDjangoApiHost()}/api/account/auth/login/`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -26,20 +47,22 @@ export const authOptions = {
               password: credentials.password,
             }),
           });
-
+          
           const user = await res.json();
-
+          
           if (!res.ok) {
-            throw new Error(`API responded with status ${res.status}`);
+            throw new Error(user?.message || `API responded with status ${res.status}`);
           }
-
+          
           return {
             ...user.data.user,
             token: user.data.user.login.token,
             profile: user.data.profile,
             employee_info: user.data.employee_info,
           };
-        } catch (error) {
+          
+        } 
+        catch (error) {
           throw new Error("Authorization failed. Please try again.");
         }
       },

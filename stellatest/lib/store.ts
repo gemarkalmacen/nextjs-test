@@ -22,22 +22,22 @@ import { encryptTransform } from 'redux-persist-transform-encrypt';
 // import settingsSlice from "./features/settings/settingsSlice"
 import loginSlice from "./features/auth/loginSlice";
 
-const secretKey = process.env.NEXT_PUBLIC_NEXTAUTH_SECRET || "";
-const persistConfig = {
-  key: "root",
-  storage,
-  // whitelist: ["user", "token", "profile"],
-  transforms: [
-    encryptTransform({
-      secretKey,
-      onError: function (error: any) {
-        console.error("Encryption error:", error);
-      }
-    }),
-  ],
-};
+// const secretKey = process.env.NEXT_PUBLIC_NEXTAUTH_SECRET || "";
+// const persistConfig = {
+//   key: "root",
+//   storage,
+//   // whitelist: ["user", "token", "profile"],
+//   transforms: [
+//     encryptTransform({
+//       secretKey,
+//       onError: function (error: any) {
+//         console.error("Encryption error:", error);
+//       }
+//     }),
+//   ],
+// };
 
-const persistedReducer = persistReducer(persistConfig, loginSlice);
+// const persistedReducer = persistReducer(persistConfig, loginSlice);
 
 export const store = configureStore({
   reducer: {
@@ -49,7 +49,8 @@ export const store = configureStore({
     //     register: registerSlice,
     // profile: profileSlice,
     // settings: settingsSlice,
-        auth: persistedReducer,
+        // auth: persistedReducer,
+        auth: loginSlice,
         // auth: loginSlice,
       },
     middleware: getDefaultMiddleware =>
@@ -60,7 +61,7 @@ export const store = configureStore({
         })
 });
 
-export const persistor = persistStore(store);
+// export const persistor = persistStore(store);
 
 // Infer the `RootState` and `AppDispatch` types from the store itself
 export type RootState = ReturnType<typeof store.getState>

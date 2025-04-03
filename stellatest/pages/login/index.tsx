@@ -69,11 +69,24 @@ const Login = () => {
     setOnGoingRequest(true)
     // dispatch(loginStart());
   
+    // const response = await signIn("credentials", {
+    //   username: data.username,
+    //   password: data.password,
+    //   redirect: false,
+    // });
     const response = await signIn("credentials", {
       username: data.username,
       password: data.password,
       redirect: false,
     });
+    
+    if (response?.error) {
+      alert("Invalid credentials");
+      console.log("Error:", response.error);
+    } else {
+      router.push("/dashboard");
+    }
+    
   
     // if (response?.error) {
     //   dispatch(loginFailure("Invalid credentials"));
@@ -220,12 +233,12 @@ const Login = () => {
             </div>
           </div>
           <div className="relative rounded-tr-[36px] rounded-br-[36px] overflow-hidden hidden md:block">
-            <Image
+            {/* <Image
               src="/images/jpg/img1.jpg"
               alt="image1"
               layout="fill"
               objectFit="cover"
-            />
+            /> */}
           </div>
         </div>
       </div>
