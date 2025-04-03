@@ -1,8 +1,14 @@
 import type { NextConfig } from "next";
 
-const nextConfig: NextConfig = {
-  /* config options here */
-  reactStrictMode: true,
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  experimental: {
+    appDir: true, // Ensure this is set
+    serverActions: true, // Enables API routes in App Router
+  },
+  env: {
+    NEXTAUTH_URL: "https://devfe.surigaocity.gov.ph",
+  },
 };
 
-export default nextConfig;
+module.exports = nextConfig;
