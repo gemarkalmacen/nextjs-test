@@ -22,6 +22,8 @@ module.exports = {
     "http://192.168.200.19:3003",
     "http://localhost:3003",
     'local-origin.dev', 
-    '*.local-origin.dev'
+    '*.local-origin.dev',
+    '192.168.200.19',
+    '192.168.200.19:3003'
   ]
 }
