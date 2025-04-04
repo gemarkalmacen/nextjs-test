@@ -13,11 +13,15 @@ export const authOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
+        console.log("authorize starting 1");
         if (!credentials) {
+          console.log("authorize starting 2");
           throw new Error("Missing credentials");
         }
 
+        console.log("authorize starting 3");
         try {
+          console.log("authorize starting 4");
           const res = await fetch(`${getDjangoApiHost()}/api/account/auth/login/`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -27,12 +31,18 @@ export const authOptions = {
             }),
           });
 
+          console.log("authorize starting 5");
+
           const user = await res.json();
 
+          console.log("authorize starting 6");
+
           if (!res.ok) {
+            console.log("authorize starting 7");
             throw new Error(`API responded with status ${res.status}`);
           }
 
+          console.log("authorize starting 8");
           return {
             ...user.data.user,
             token: user.data.user.login.token,
@@ -40,6 +50,7 @@ export const authOptions = {
             employee_info: user.data.employee_info,
           };
         } catch (error) {
+          console.log("authorize starting 9");
           throw new Error("Authorization failed. Please try again.");
         }
       },
@@ -47,20 +58,24 @@ export const authOptions = {
   ],
   callbacks: {
     async jwt({ token, user }: { token: JWT; user?: any }) {
+      console.log("callback jwt 1");
       if (user) {
         token.user = user;
         token.profile = user.profile;
         token.accessToken = user.token;
         token.employee_info = user.employee_info;
+        console.log("callback jwt 2");
       }
       return token;
     },
     async session({ session, token }: { session: any; token: JWT }) {
+      console.log("callback session 1");
       if (token) {
         session.user = token.user;
         session.profile = token.profile;
         session.accessToken = token.accessToken;
         session.employee_info = token.employee_info;
+        console.log("callback session 2");
       }
       return session;
     },
